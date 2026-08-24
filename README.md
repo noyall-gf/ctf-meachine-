@@ -213,6 +213,35 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 
 ## Development
 
+### One-Command Setup
+
+Copy and run ONE command on your computer. Node.js will be downloaded automatically, dependencies installed, and the CTF application started.
+
+**Linux / macOS:**
+
+```bash
+git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git && cd ctf-meachinne- && PORT=9000 bash setup.sh
+```
+
+**Windows (PowerShell):**
+
+```powershell
+git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git; cd ctf-meachinne-; $env:PORT=9000; .\setup.ps1
+```
+
+**Windows (Command Prompt):**
+
+```cmd
+git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git && cd ctf-meachinne- && set PORT=9000 && setup.bat
+```
+
+Open browser: `http://localhost:9000`
+
+**For multiple computers, change PORT:**
+- Computer 1: `PORT=9000`
+- Computer 2: `PORT=9001`
+- Computer 3: `PORT=9002`
+
 ### Quick Start
 
 Clone and run the setup script on your computer. Node.js 22 will be downloaded automatically.
@@ -241,7 +270,7 @@ cd ctf-meachinne-
 setup.bat
 ```
 
-The setup script will download Node.js v22 to the project folder, install dependencies, and start the CTF application at `http://localhost:3000`. No global Node.js installation is required; all dependencies are installed locally.
+The setup script will download Node.js v22.13.0 to the project folder, install dependencies, and start the CTF application at `http://localhost:3000`. No global Node.js installation is required; all dependencies are installed locally.
 
 ### Alternative: Manual Setup
 
