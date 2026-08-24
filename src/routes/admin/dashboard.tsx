@@ -273,8 +273,19 @@ function AdminDashboard() {
               {/* Preview */}
               <div className="grid w-full max-w-md grid-cols-2 gap-3">
                 {photos.map((photo, index) => (
-                  <div key={index} className="flex aspect-square items-center justify-center overflow-hidden rounded-xl border bg-muted">
-                    {photo ? <img src={photo} alt={`Profile photo ${index + 1}`} className="h-full w-full object-cover" /> : <span className="text-sm text-muted-foreground">Photo {index + 1}</span>}
+                  <div key={index} className="overflow-hidden rounded-xl border bg-muted">
+                    <div className="flex aspect-square items-center justify-center">
+                      {photo ? <img src={photo} alt={`Profile photo ${index + 1}`} className="h-full w-full object-cover" /> : <span className="text-sm text-muted-foreground">Photo {index + 1}</span>}
+                    </div>
+                    {photo && (
+                      <a
+                        href={photo}
+                        download={`profile-photo-${index + 1}`}
+                        className="block border-t px-3 py-2 text-center text-sm font-medium hover:bg-background"
+                      >
+                        Download Photo {index + 1}
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>
