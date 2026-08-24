@@ -40,6 +40,18 @@ npm --version
 
 npm ci --legacy-peer-deps
 
+echo "Building better-sqlite3 for this system..."
+if ! npm rebuild better-sqlite3 --build-from-source; then
+    echo "Failed to build better-sqlite3. Install Python 3, make, and g++, then run setup.sh again."
+    exit 1
+fi
+
+echo "Checking SQLite native module..."
+if ! node --input-type=module -e 'import Database from "better-sqlite3"; const db = new Database(":memory:"); db.prepare("SELECT 1").get(); db.close();'; then
+    echo "better-sqlite3 could not load on this system. Check the Node.js and compiler installation."
+    exit 1
+fi
+
 echo ""
 echo "=== Setup Complete ==="
 echo "Starting CTF application..."
