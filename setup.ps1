@@ -31,6 +31,7 @@ $env:Path = "${NodeDir};${NodeDir}\bin;$env:Path"
 
 Write-Host "`n=== Setup Complete ===" -ForegroundColor Green
 Write-Host "Starting CTF application..." -ForegroundColor Yellow
-Write-Host "Visit: http://localhost:3000`n" -ForegroundColor Cyan
+if ([string]::IsNullOrEmpty($env:PORT)) { $env:PORT = "3000" }
+Write-Host "Visit: http://localhost:$($env:PORT)`n" -ForegroundColor Cyan
 
-& "$NodeDir\bin\npm.cmd" run dev
+& "$NodeDir\bin\npm.cmd" run dev -- --port $env:PORT

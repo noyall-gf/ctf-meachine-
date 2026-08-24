@@ -43,7 +43,9 @@ npm ci --legacy-peer-deps
 echo ""
 echo "=== Setup Complete ==="
 echo "Starting CTF application..."
-echo "Visit: http://localhost:3000"
+PORT=${PORT:-3000}
+echo "Visit: http://localhost:$PORT"
 echo ""
 
-npm run dev
+export PATH="${NODE_DIR}/bin:$PATH"
+npm run dev -- --port $PORT

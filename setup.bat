@@ -30,8 +30,9 @@ call npm ci --legacy-peer-deps
 echo.
 echo === Setup Complete ===
 echo Starting CTF application...
-echo Visit: http://localhost:3000
+if "%PORT%"=="" set PORT=3000
+echo Visit: http://localhost:%PORT%
 echo.
 
-call npm run dev
+call %NODE_DIR%\bin\npm.cmd run dev -- --port %PORT%
 pause
