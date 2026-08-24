@@ -27,7 +27,7 @@ const loginSchema = z.object({
 export const registerUser = createServerFn({
   method: "POST",
 })
-  .inputValidator(registerSchema)
+  .validator(registerSchema)
   .handler(async ({ data }) => {
     const email = data.email.trim().toLowerCase();
 
@@ -94,7 +94,7 @@ export const registerUser = createServerFn({
 export const loginUser = createServerFn({
   method: "POST",
 })
-  .inputValidator(loginSchema)
+  .validator(loginSchema)
   .handler(async ({ data }) => {
     const email = data.email.trim().toLowerCase();
 
