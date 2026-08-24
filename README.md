@@ -213,30 +213,62 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 
 ## Development
 
-Prefer working locally? Install Node.js 22 LTS and npm on every computer — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating). SQLite is included through the `better-sqlite3` dependency; a separate SQLite installation is not required.
+### Quick Start
+
+Clone and run the setup script on your computer. Node.js 22 will be downloaded automatically.
+
+**Linux / macOS:**
+
+```sh
+git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git
+cd ctf-meachinne-
+bash setup.sh
+```
+
+**Windows (PowerShell):**
+
+```powershell
+git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git
+cd ctf-meachinne-
+.\setup.ps1
+```
+
+**Windows (Command Prompt):**
+
+```cmd
+git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git
+cd ctf-meachinne-
+setup.bat
+```
+
+The setup script will download Node.js v22 to the project folder, install dependencies, and start the CTF application at `http://localhost:3000`. No global Node.js installation is required; all dependencies are installed locally.
+
+### Alternative: Manual Setup
+
+If you prefer to install dependencies yourself, install Node.js 22 LTS — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating). SQLite is included through the `better-sqlite3` dependency; a separate SQLite installation is not required.
 
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
-npm ci
+npm ci --legacy-peer-deps
 npm run dev
 ```
 
-Use `npm ci`, not `npm install`, so every computer gets the exact versions from `package-lock.json`. If native dependency installation fails on Windows, run `npm rebuild better-sqlite3` and then run `npm run dev` again.
+### Docker (Optional)
 
-### Docker
-
-Docker Desktop is also supported. Install Docker Desktop on each computer, then run:
+Docker Desktop is also supported for environments where no local Node.js is available. Install Docker Desktop on each computer, then run:
 
 ```sh
-docker compose up --build
+docker compose up --build -d
 ```
 
-For a one-command start after cloning, use `start.bat` on Windows, `./start.sh` on Linux/macOS, or `./start.ps1` in PowerShell. These launchers install the locked dependencies inside Docker automatically; no manual Node.js, npm, or SQLite setup is needed on the host computer.
+Or use the launcher:
 
-The dependency files included in GitHub are `package.json` and `package-lock.json`. `Dockerfile` fixes the Node.js 22 environment, and `docker-compose.yml` starts the same application on every computer.
+- Windows: `start.bat`
+- Linux/macOS: `./start.sh`
+- PowerShell: `./start.ps1`
 
-Open `http://localhost:3000`. The container uses Node.js 22 and installs the exact locked dependency versions. The local `data` folder is mounted into the container, so the committed `data/ctf.sqlite` provides the same initial users, passwords, IDs, and names on every computer, while later changes stay independent on that computer. Docker only uses port `3000` and the project `data` folder; it does not modify another CTF machine's database or installed software.
+The container uses Node.js 22 and installs the exact locked dependency versions. The local `data` folder is mounted, so the committed `data/ctf.sqlite` provides the same initial users, passwords, IDs, and names on every computer, while later changes stay independent. Docker only uses port `3000` and the project `data` folder.
 
 Stop it with:
 
