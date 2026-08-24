@@ -14,7 +14,12 @@ export const Route = createFileRoute("/api/admin/profile-photos")({
     handlers: {
       GET: async ({ request }) => {
         if (!getAdminId(request)) return Response.json({ success: false, error: "Not authenticated." }, { status: 401 });
-        const userId = Number(new URL(request.url).searchParams.get("userId"));
+        const userIdValue = new URL(request.url).searchParams.get("userId");
+        if (!userIdValue) {
+          const users = db.prepare("SELECT id, name, email FROM users ORDER BY id").all();
+          return Response.json({ success: true, users });
+        }
+        const userId = Number(userIdValue);
         const photos = db.prepare("SELECT photo_slot, image_data, mime_type FROM user_profile_photos WHERE user_id = ? AND photo_slot BETWEEN 1 AND 4 ORDER BY photo_slot").all(userId) as { photo_slot: number; image_data: Buffer; mime_type: string }[];
         return Response.json({ success: true, photos: photos.map((photo) => ({ slot: photo.photo_slot, data: `data:${photo.mime_type};base64,${photo.image_data.toString("base64")}` })) });
       },
@@ -29,6 +34,8 @@ export const Route = createFileRoute("/api/admin/profile-photos")({
           if (!Number.isInteger(userId) || !Number.isInteger(slot) || slot < 1 || slot > 4 || !isFile || !file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) {
             return Response.json({ success: false, error: "Provide a valid image, user, and slot 1-4." }, { status: 400 });
           }
+          const user = db.prepare("SELECT id FROM users WHERE id = ? LIMIT 1").get(userId);
+          if (!user) return Response.json({ success: false, error: "Selected user was not found in the database." }, { status: 404 });
           const imageBuffer = Buffer.from(await file.arrayBuffer());
           db.prepare("INSERT INTO user_profile_photos (user_id, photo_slot, image_data, mime_type) VALUES (?, ?, ?, ?) ON CONFLICT(user_id, photo_slot) DO UPDATE SET image_data = excluded.image_data, mime_type = excluded.mime_type").run(userId, slot, imageBuffer, file.type);
           return Response.json({ success: true, slot });

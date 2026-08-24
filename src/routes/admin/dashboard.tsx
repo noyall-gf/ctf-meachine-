@@ -2,7 +2,7 @@ import {
   createFileRoute,
   useNavigate,
 } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: AdminDashboard,
@@ -57,6 +57,17 @@ function AdminDashboard() {
   const [saved, setSaved] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const [showFlag, setShowFlag] = useState(true);
+
+  useEffect(() => {
+    void fetch("/api/admin/profile-photos", { credentials: "include" })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.success && Array.isArray(result.users) && result.users.length > 0) {
+          setUsers(result.users.map((user: { id: number; name: string; email: string }) => ({ ...user, image: null })));
+        }
+      })
+      .catch(() => setUploadError("Unable to load users from the database."));
+  }, []);
 
   async function handleImageUpload(
     event: React.ChangeEvent<HTMLInputElement>,
