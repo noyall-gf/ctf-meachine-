@@ -19,16 +19,23 @@ export const Route = createFileRoute("/api/admin/profile-photos")({
         return Response.json({ success: true, photos: photos.map((photo) => ({ slot: photo.photo_slot, data: `data:${photo.mime_type};base64,${photo.image_data.toString("base64")}` })) });
       },
       POST: async ({ request }) => {
-        if (!getAdminId(request)) return Response.json({ success: false, error: "Not authenticated." }, { status: 401 });
-        const formData = await request.formData();
-        const userId = Number(formData.get("userId"));
-        const slot = Number(formData.get("slot"));
-        const file = formData.get("file");
-        if (!Number.isInteger(userId) || !Number.isInteger(slot) || slot < 1 || slot > 4 || !(file instanceof File) || !file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) {
-          return Response.json({ success: false, error: "Provide a valid image, user, and slot 1-4." }, { status: 400 });
+        try {
+          if (!getAdminId(request)) return Response.json({ success: false, error: "Not authenticated." }, { status: 401 });
+          const formData = await request.formData();
+          const userId = Number(formData.get("userId"));
+          const slot = Number(formData.get("slot"));
+          const file = formData.get("file");
+          const isFile = file !== null && typeof file === "object" && "arrayBuffer" in file && typeof file.arrayBuffer === "function";
+          if (!Number.isInteger(userId) || !Number.isInteger(slot) || slot < 1 || slot > 4 || !isFile || !file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) {
+            return Response.json({ success: false, error: "Provide a valid image, user, and slot 1-4." }, { status: 400 });
+          }
+          const imageBuffer = Buffer.from(await file.arrayBuffer());
+          db.prepare("INSERT INTO user_profile_photos (user_id, photo_slot, image_data, mime_type) VALUES (?, ?, ?, ?) ON CONFLICT(user_id, photo_slot) DO UPDATE SET image_data = excluded.image_data, mime_type = excluded.mime_type").run(userId, slot, imageBuffer, file.type);
+          return Response.json({ success: true, slot });
+        } catch (error) {
+          console.error("ADMIN PROFILE PHOTO UPLOAD ERROR:", error);
+          return Response.json({ success: false, error: error instanceof Error ? error.message : "Unable to save photo." }, { status: 500 });
         }
-        db.prepare("INSERT INTO user_profile_photos (user_id, photo_slot, image_data, mime_type) VALUES (?, ?, ?, ?) ON CONFLICT(user_id, photo_slot) DO UPDATE SET image_data = excluded.image_data, mime_type = excluded.mime_type").run(userId, slot, Buffer.from(await file.arrayBuffer()), file.type);
-        return Response.json({ success: true, slot });
       },
     },
   },
