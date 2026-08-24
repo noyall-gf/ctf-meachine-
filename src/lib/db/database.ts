@@ -49,6 +49,17 @@ db.exec(`
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (admin_id) REFERENCES admins(id)
   );
+
+  CREATE TABLE IF NOT EXISTS user_profile_photos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    photo_slot INTEGER NOT NULL,
+    image_data BLOB NOT NULL,
+    mime_type TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, photo_slot),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+  );
 `);
 
 console.log("SQLite connected:", dbPath);

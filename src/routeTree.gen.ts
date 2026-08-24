@@ -25,6 +25,7 @@ import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
 import { Route as ApiAdminLoginRouteImport } from './routes/api/admin/login'
+import { Route as ApiAdminProfilePhotosRouteImport } from './routes/api/admin/profile-photos'
 import { Route as ApiProfilePhotosRouteImport } from './routes/api/profile/photos'
 import { Route as ApiAdminLoginBackupRouteImport } from './routes/api/admin/login.backup'
 
@@ -108,6 +109,11 @@ const ApiAdminLoginRoute = ApiAdminLoginRouteImport.update({
   path: '/api/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminProfilePhotosRoute = ApiAdminProfilePhotosRouteImport.update({
+  id: '/api/admin/profile-photos',
+  path: '/api/admin/profile-photos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProfilePhotosRoute = ApiProfilePhotosRouteImport.update({
   id: '/api/profile/photos',
   path: '/api/profile/photos',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/product/$productId': typeof ProductProductIdRoute
   '/orders/': typeof OrdersIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRouteWithChildren
+  '/api/admin/profile-photos': typeof ApiAdminProfilePhotosRoute
   '/api/profile/photos': typeof ApiProfilePhotosRoute
   '/api/admin/login/backup': typeof ApiAdminLoginBackupRoute
 }
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/product/$productId': typeof ProductProductIdRoute
   '/orders': typeof OrdersIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRouteWithChildren
+  '/api/admin/profile-photos': typeof ApiAdminProfilePhotosRoute
   '/api/profile/photos': typeof ApiProfilePhotosRoute
   '/api/admin/login/backup': typeof ApiAdminLoginBackupRoute
 }
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/product/$productId': typeof ProductProductIdRoute
   '/orders/': typeof OrdersIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRouteWithChildren
+  '/api/admin/profile-photos': typeof ApiAdminProfilePhotosRoute
   '/api/profile/photos': typeof ApiProfilePhotosRoute
   '/api/admin/login/backup': typeof ApiAdminLoginBackupRoute
 }
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/orders/'
     | '/api/admin/login'
+    | '/api/admin/profile-photos'
     | '/api/profile/photos'
     | '/api/admin/login/backup'
   fileRoutesByTo: FileRoutesByTo
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/orders'
     | '/api/admin/login'
+    | '/api/admin/profile-photos'
     | '/api/profile/photos'
     | '/api/admin/login/backup'
   id:
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/orders/'
     | '/api/admin/login'
+    | '/api/admin/profile-photos'
     | '/api/profile/photos'
     | '/api/admin/login/backup'
   fileRoutesById: FileRoutesById
@@ -258,6 +270,7 @@ export interface RootRouteChildren {
   ProductProductIdRoute: typeof ProductProductIdRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
   ApiAdminLoginRoute: typeof ApiAdminLoginRouteWithChildren
+  ApiAdminProfilePhotosRoute: typeof ApiAdminProfilePhotosRoute
   ApiProfilePhotosRoute: typeof ApiProfilePhotosRoute
 }
 
@@ -375,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin/profile-photos': {
+      id: '/api/admin/profile-photos'
+      path: '/api/admin/profile-photos'
+      fullPath: '/api/admin/profile-photos'
+      preLoaderRoute: typeof ApiAdminProfilePhotosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/profile/photos': {
       id: '/api/profile/photos'
       path: '/api/profile/photos'
@@ -431,6 +451,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductProductIdRoute: ProductProductIdRoute,
   OrdersIndexRoute: OrdersIndexRoute,
   ApiAdminLoginRoute: ApiAdminLoginRouteWithChildren,
+  ApiAdminProfilePhotosRoute: ApiAdminProfilePhotosRoute,
   ApiProfilePhotosRoute: ApiProfilePhotosRoute,
 }
 export const routeTree = rootRouteImport

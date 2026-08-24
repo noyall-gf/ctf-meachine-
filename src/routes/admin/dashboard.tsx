@@ -53,11 +53,13 @@ function AdminDashboard() {
 
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [photos, setPhotos] = useState<(string | null)[]>([null, null, null, null]);
   const [saved, setSaved] = useState(false);
   const [showFlag, setShowFlag] = useState(true);
 
-  function handleImageUpload(
+  async function handleImageUpload(
     event: React.ChangeEvent<HTMLInputElement>,
+    slot: number,
   ) {
     const file = event.target.files?.[0];
 
@@ -67,51 +69,15 @@ function AdminDashboard() {
       return;
     }
 
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const image = String(reader.result);
-
-      setUsers((currentUsers) =>
-        currentUsers.map((user) =>
-          user.id === selectedUser.id
-            ? { ...user, image }
-            : user,
-        ),
-      );
-
-      setSelectedUser((currentUser) =>
-        currentUser
-          ? { ...currentUser, image }
-          : currentUser,
-      );
-
-      setSaved(false);
-    };
-
-    reader.readAsDataURL(file);
-  }
-
-  function saveProfilePicture() {
-    if (!selectedUser) return;
-
+    const formData = new FormData();
+    formData.append("userId", String(selectedUser.id));
+    formData.append("slot", String(slot));
+    formData.append("file", file);
+    const response = await fetch("/api/admin/profile-photos", { method: "POST", body: formData });
+    if (!response.ok) return;
+    const image = URL.createObjectURL(file);
+    setPhotos((current) => current.map((photo, index) => index === slot - 1 ? image : photo));
     setSaved(true);
-
-    /*
-     * Demo/CTF environment:
-     * profile picture is kept in browser storage.
-     */
-    const storedUsers = users.map((user) => ({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      image: user.image,
-    }));
-
-    localStorage.setItem(
-      "shopnest_admin_users",
-      JSON.stringify(storedUsers),
-    );
   }
 
   function removeImage() {
@@ -213,6 +179,13 @@ function AdminDashboard() {
                 onClick={() => {
                   setSelectedUser(user);
                   setSaved(false);
+                  void fetch(`/api/admin/profile-photos?userId=${user.id}`)
+                    .then((response) => response.json())
+                    .then((result) => {
+                      const loaded = [null, null, null, null] as (string | null)[];
+                      for (const photo of result.photos ?? []) loaded[photo.slot - 1] = photo.data;
+                      setPhotos(loaded);
+                    });
                 }}
                 className="rounded-xl border p-5 text-left transition hover:bg-muted"
               >
@@ -256,11 +229,11 @@ function AdminDashboard() {
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="text-xl font-semibold">
-                  Profile Picture
+                  Profile Photos
                 </h2>
 
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Update the profile picture for{" "}
+                  Upload up to four SQL-backed photos for{" "}
                   <span className="font-medium text-foreground">
                     {selectedUser.name}
                   </span>
@@ -280,18 +253,12 @@ function AdminDashboard() {
             <div className="mt-6 flex flex-col gap-6 sm:flex-row">
 
               {/* Preview */}
-              <div className="flex h-52 w-52 shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-muted">
-                {selectedUser.image ? (
-                  <img
-                    src={selectedUser.image}
-                    alt={selectedUser.name}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="text-center text-sm text-muted-foreground">
-                    No profile picture
+              <div className="grid w-full max-w-md grid-cols-2 gap-3">
+                {photos.map((photo, index) => (
+                  <div key={index} className="flex aspect-square items-center justify-center overflow-hidden rounded-xl border bg-muted">
+                    {photo ? <img src={photo} alt={`Profile photo ${index + 1}`} className="h-full w-full object-cover" /> : <span className="text-sm text-muted-foreground">Photo {index + 1}</span>}
                   </div>
-                )}
+                ))}
               </div>
 
               {/* Controls */}
@@ -307,35 +274,33 @@ function AdminDashboard() {
 
                 <div className="mt-5">
                   <label
-                    htmlFor="profile-picture"
+                    htmlFor="profile-picture-1"
                     className="inline-flex cursor-pointer rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
                   >
-                    Choose Picture
+                    Choose Photo 1
                   </label>
 
                   <input
-                    id="profile-picture"
+                    id="profile-picture-1"
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    onChange={handleImageUpload}
+                    onChange={(event) => void handleImageUpload(event, 1)}
                   />
                 </div>
+
+                {[2, 3, 4].map((slot) => (
+                  <div key={slot} className="mt-3">
+                    <label htmlFor={`profile-picture-${slot}`} className="inline-flex cursor-pointer rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted">Choose Photo {slot}</label>
+                    <input id={`profile-picture-${slot}`} type="file" accept="image/*" className="hidden" onChange={(event) => void handleImageUpload(event, slot)} />
+                  </div>
+                ))}
 
                 <div className="mt-4 flex gap-3">
                   <button
                     type="button"
-                    onClick={saveProfilePicture}
-                    disabled={!selectedUser.image}
-                    className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    Save Picture
-                  </button>
-
-                  <button
-                    type="button"
                     onClick={removeImage}
-                    disabled={!selectedUser.image}
+                    disabled={!photos.some(Boolean)}
                     className="rounded-md border px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Remove
