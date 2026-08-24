@@ -4,7 +4,7 @@ setlocal enabledelayedexpansion
 echo === ShopNest CTF Setup ===
 echo This script will download Node.js v22 and install project dependencies.
 
-set NODE_VERSION=22.0.0
+set NODE_VERSION=22.13.0
 set NODE_TAR=node-v%NODE_VERSION%-win-x64.zip
 set NODE_URL=https://nodejs.org/dist/v%NODE_VERSION%/%NODE_TAR%
 set NODE_DIR=%CD%\node-v%NODE_VERSION%-win-x64

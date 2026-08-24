@@ -2,9 +2,9 @@
 set -e
 
 echo "=== ShopNest CTF Setup ==="
-echo "This script will download Node.js v22 and install project dependencies."
+echo "This script will download Node.js v22.13.0 and install project dependencies."
 
-NODE_VERSION="22.0.0"
+NODE_VERSION="22.13.0"
 ARCH="x64"
 
 # Detect OS
