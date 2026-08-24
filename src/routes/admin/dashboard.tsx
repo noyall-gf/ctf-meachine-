@@ -55,6 +55,7 @@ function AdminDashboard() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [photos, setPhotos] = useState<(string | null)[]>([null, null, null, null]);
   const [saved, setSaved] = useState(false);
+  const [uploadError, setUploadError] = useState("");
   const [showFlag, setShowFlag] = useState(true);
 
   async function handleImageUpload(
@@ -66,6 +67,12 @@ function AdminDashboard() {
     if (!file || !selectedUser) return;
 
     if (!file.type.startsWith("image/")) {
+      setUploadError("Please choose an image file.");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError("Image must be smaller than 5 MB.");
       return;
     }
 
@@ -73,8 +80,17 @@ function AdminDashboard() {
     formData.append("userId", String(selectedUser.id));
     formData.append("slot", String(slot));
     formData.append("file", file);
-    const response = await fetch("/api/admin/profile-photos", { method: "POST", body: formData });
-    if (!response.ok) return;
+    setUploadError("");
+    const response = await fetch("/api/admin/profile-photos", {
+      method: "POST",
+      credentials: "include",
+      body: formData,
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.success) {
+      setUploadError(result.error ?? `Upload failed (${response.status}).`);
+      return;
+    }
     const image = URL.createObjectURL(file);
     setPhotos((current) => current.map((photo, index) => index === slot - 1 ? image : photo));
     setSaved(true);
@@ -179,13 +195,15 @@ function AdminDashboard() {
                 onClick={() => {
                   setSelectedUser(user);
                   setSaved(false);
+                  setUploadError("");
                   void fetch(`/api/admin/profile-photos?userId=${user.id}`)
                     .then((response) => response.json())
                     .then((result) => {
                       const loaded = [null, null, null, null] as (string | null)[];
                       for (const photo of result.photos ?? []) loaded[photo.slot - 1] = photo.data;
                       setPhotos(loaded);
-                    });
+                    })
+                    .catch(() => setUploadError("Unable to load saved photos."));
                 }}
                 className="rounded-xl border p-5 text-left transition hover:bg-muted"
               >
@@ -310,6 +328,12 @@ function AdminDashboard() {
                 {saved && (
                   <p className="mt-4 text-sm text-green-600">
                     Profile picture saved successfully.
+                  </p>
+                )}
+
+                {uploadError && (
+                  <p className="mt-4 text-sm text-destructive">
+                    {uploadError}
                   </p>
                 )}
               </div>
