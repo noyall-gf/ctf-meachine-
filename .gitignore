@@ -15,6 +15,9 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
+.env
+.env.*
+!.env.example
 
 # SQLite temporary runtime files; the database itself is the shared initial state.
 data/*.sqlite-shm

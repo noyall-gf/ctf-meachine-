@@ -7,5 +7,8 @@ dist-ssr
 .nitro
 .git
 *.log
+.env
+.env.*
+!.env.example
 data/*.sqlite-shm
 data/*.sqlite-wal

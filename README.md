@@ -290,31 +290,47 @@ This is the recommended setup for running the CTF independently on many computer
 **Windows PowerShell:**
 
 ```powershell
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git; cd ctf-meachinne-; docker compose up --build -d
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git; cd final-ctf-meachine-; docker compose up --build -d
 ```
 
 **Windows Command Prompt:**
 
 ```cmd
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git && cd ctf-meachinne- && docker compose up --build -d
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git && cd final-ctf-meachine- && docker compose up --build -d
 ```
 
 **Linux/macOS:**
 
 ```sh
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git && cd ctf-meachinne- && docker compose up --build -d
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git && cd final-ctf-meachine- && docker compose up --build -d
 ```
 
-Docker automatically provides Node.js 22, installs the locked dependency versions, and builds the native SQLite dependency inside the container. No Node.js, npm, Python, or compiler installation is needed on the host computer.
+Docker automatically provides the pinned Node.js 22 runtime, installs the locked dependency versions, and builds the native SQLite dependency inside the container. No Node.js, npm, Python, or compiler installation is needed on the host computer.
 
 Open `http://localhost:3000`. To access it from another device on the same network, use `http://<computer-ip>:3000`.
 
-Each computer gets its own persistent `shopnest-data` Docker volume, so users, sessions, and flags remain independent between computers. The seeded flags are created automatically in SQLite.
+On first startup, the committed seed database is copied into the persistent `shopnest-data` Docker volume. This preserves the existing users, admin, cart data, and flags. Later changes remain independent on each computer and survive container restarts.
+
+To use another host port, copy `.env.example` to `.env` and change `HOST_PORT`:
+
+```sh
+cp .env.example .env
+# Edit .env: HOST_PORT=3001
+docker compose up --build -d
+```
+
+The application still listens on port `3000` inside the container; `HOST_PORT` only changes the port exposed on the host.
 
 Stop the local instance with:
 
 ```sh
 docker compose down
+```
+
+Rebuild and restart after code changes with:
+
+```sh
+docker compose up --build -d
 ```
 
 To remove the local database volume too, use `docker compose down -v`.
