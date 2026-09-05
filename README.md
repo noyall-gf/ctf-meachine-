@@ -215,12 +215,18 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 
 ### One-Command Setup
 
-Copy and run ONE Docker command on your computer. Node.js, npm, native SQLite tooling, and project dependencies are provided inside the container.
+Copy and run ONE command on your computer.
 
-**Linux / macOS:**
+**Linux (Ubuntu / Debian / Kali):**
 
 ```bash
-git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && docker compose up --build -d
+sudo apt update && sudo apt install -y git docker.io docker-compose && sudo systemctl start docker && unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY && git config --global --unset http.proxy 2>/dev/null; git config --global --unset https.proxy 2>/dev/null; cd ~ && rm -rf ctf-meachine- && git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && sudo sh start.sh
+```
+
+**Linux / macOS (with Docker installed):**
+
+```bash
+git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && sh start.sh
 ```
 
 **Windows (PowerShell):**
@@ -239,14 +245,14 @@ Open browser: `http://localhost:9000`
 
 ### Quick Start
 
-Clone and run the setup script on your computer. Node.js 22 will be downloaded automatically.
+Clone and run the startup script on your computer:
 
 **Linux / macOS:**
 
 ```sh
 git clone https://github.com/noyall-gf/ctf-meachine-.git
 cd ctf-meachine-
-docker compose up --build -d
+sh start.sh
 ```
 
 **Windows (PowerShell):**
@@ -269,12 +275,12 @@ Docker is the recommended reproducible setup. The older `setup.sh`, `setup.ps1`,
 
 ### Alternative: Manual Setup
 
-If you prefer to install dependencies yourself, install Node.js 22 LTS — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating). SQLite is included through the `better-sqlite3` dependency; a separate SQLite installation is not required.
+If you prefer to install dependencies yourself, install Node.js 20 LTS — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating). SQLite is included through the `better-sqlite3` dependency; a separate SQLite installation is not required.
 
 ```sh
 git clone https://github.com/noyall-gf/ctf-meachine-.git
 cd ctf-meachine-
-npm ci --legacy-peer-deps
+npm install --legacy-peer-deps
 npm run dev
 ```
 
@@ -297,10 +303,10 @@ git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && 
 **Linux/macOS:**
 
 ```sh
-git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && docker compose up --build -d
+git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && sudo sh start.sh
 ```
 
-Docker automatically provides the pinned Node.js 22 runtime, installs the locked dependency versions, and builds the native SQLite dependency inside the container. No Node.js, npm, Python, or compiler installation is needed on the host computer.
+Docker automatically provides the pinned Node.js 20 LTS runtime, installs the dependencies, and builds the native SQLite dependency inside the container. No Node.js, npm, Python, or compiler installation is needed on the host computer.
 
 Open `http://localhost:9000`. To access it from another device on the same network, use `http://<computer-ip>:9000`.
 
