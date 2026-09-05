@@ -7,16 +7,18 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  server: {
-    host: "0.0.0.0",
-    port: 3000,
-    strictPort: false,
-  },
-  ssr: {
-    external: ["better-sqlite3"],
-  },
-  optimizeDeps: {
-    exclude: ["better-sqlite3"],
+  vite: {
+    server: {
+      host: "0.0.0.0",
+      port: 3000,
+      strictPort: false,
+    },
+    ssr: {
+      external: ["better-sqlite3"],
+    },
+    optimizeDeps: {
+      exclude: ["better-sqlite3"],
+    },
   },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
