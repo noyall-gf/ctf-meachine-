@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 Write-Host "=== ShopNest CTF Setup ===" -ForegroundColor Green
 Write-Host "This script will download Node.js v22 and install project dependencies."
 
-$NodeVersion = "20.18.3"
+$NodeVersion = "22.13.0"
 $NodeTar = "node-v${NodeVersion}-win-x64.zip"
 $NodeUrl = "https://nodejs.org/dist/v${NodeVersion}/${NodeTar}"
 $NodeDir = Join-Path (Get-Location) "node-v${NodeVersion}-win-x64"
