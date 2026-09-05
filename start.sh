@@ -21,6 +21,13 @@ else
   exit 1
 fi
 
+# Stop any previous container using the same port or name
+if command -v docker >/dev/null 2>&1; then
+  docker rm -f ctf-meachine--shopnest-1 2>/dev/null || true
+elif command -v sudo >/dev/null 2>&1; then
+  sudo docker rm -f ctf-meachine--shopnest-1 2>/dev/null || true
+fi
+
 $COMPOSE_CMD up --build -d
 
 printf "\n======================================================\n"
