@@ -38,7 +38,7 @@ export PATH="${NODE_DIR}/bin:$PATH"
 node --version
 npm --version
 
-npm ci --legacy-peer-deps
+npm ci
 
 echo "Building better-sqlite3 for this system..."
 if ! npm rebuild better-sqlite3 --build-from-source; then

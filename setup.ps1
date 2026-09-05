@@ -27,7 +27,7 @@ $env:Path = "${NodeDir};${NodeDir}\bin;$env:Path"
 & "$NodeDir\bin\node.exe" --version
 & "$NodeDir\bin\npm.cmd" --version
 
-& "$NodeDir\bin\npm.cmd" ci --legacy-peer-deps
+& "$NodeDir\bin\npm.cmd" ci
 
 Write-Host "`n=== Setup Complete ===" -ForegroundColor Green
 Write-Host "Starting CTF application..." -ForegroundColor Yellow

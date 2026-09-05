@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y \
 	g++ \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY package.json ./
-RUN npm install --legacy-peer-deps
+COPY package.json package-lock.json ./
+RUN npm ci
 
 COPY . .
 COPY data/ctf.sqlite /app/seed-data/ctf.sqlite

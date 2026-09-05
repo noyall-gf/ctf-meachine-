@@ -280,7 +280,7 @@ If you prefer to install dependencies yourself, install Node.js 20 LTS — [inst
 ```sh
 git clone https://github.com/noyall-gf/ctf-meachine-.git
 cd ctf-meachine-
-npm install --legacy-peer-deps
+npm ci
 npm run dev
 ```
 
