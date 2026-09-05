@@ -215,32 +215,27 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 
 ### One-Command Setup
 
-Copy and run ONE command on your computer. Node.js will be downloaded automatically, dependencies installed, and the CTF application started.
+Copy and run ONE Docker command on your computer. Node.js, npm, native SQLite tooling, and project dependencies are provided inside the container.
 
 **Linux / macOS:**
 
 ```bash
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git && cd ctf-meachinne- && PORT=9000 bash setup.sh
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git && cd final-ctf-meachine- && docker compose up --build -d
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git; cd ctf-meachinne-; $env:PORT=9000; .\setup.ps1
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git; cd final-ctf-meachine-; docker compose up --build -d
 ```
 
 **Windows (Command Prompt):**
 
 ```cmd
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git && cd ctf-meachinne- && set PORT=9000 && setup.bat
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git && cd final-ctf-meachine- && docker compose up --build -d
 ```
 
-Open browser: `http://localhost:9000`
-
-**For multiple computers, change PORT:**
-- Computer 1: `PORT=9000`
-- Computer 2: `PORT=9001`
-- Computer 3: `PORT=9002`
+Open browser: `http://localhost:3000`
 
 ### Quick Start
 
@@ -249,28 +244,28 @@ Clone and run the setup script on your computer. Node.js 22 will be downloaded a
 **Linux / macOS:**
 
 ```sh
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git
-cd ctf-meachinne-
-bash setup.sh
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git
+cd final-ctf-meachine-
+docker compose up --build -d
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git
-cd ctf-meachinne-
-.\setup.ps1
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git
+cd final-ctf-meachine-
+docker compose up --build -d
 ```
 
 **Windows (Command Prompt):**
 
 ```cmd
-git clone https://github.com/projectscyber2024-oss/ctf-meachinne-.git
-cd ctf-meachinne-
-setup.bat
+git clone https://github.com/noyall-gf/final-ctf-meachine-.git
+cd final-ctf-meachine-
+docker compose up --build -d
 ```
 
-The setup script will download Node.js v22.13.0 to the project folder, install dependencies, and start the CTF application at `http://localhost:3000`. No global Node.js installation is required; all dependencies are installed locally.
+Docker is the recommended reproducible setup. The older `setup.sh`, `setup.ps1`, and `setup.bat` scripts remain available for non-Docker development, but they require a host runtime and are not needed for the portable deployment.
 
 ### Alternative: Manual Setup
 
