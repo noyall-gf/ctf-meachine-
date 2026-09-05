@@ -4,16 +4,21 @@ set -e
 PORT="${HOST_PORT:-9000}"
 export HOST_PORT="$PORT"
 
-if command -v docker >/dev/null 2>&1; then
-  DOCKER_CMD="docker"
-elif command -v sudo >/dev/null 2>&1 && sudo docker --version >/dev/null 2>&1; then
-  DOCKER_CMD="sudo docker"
+if docker compose version >/dev/null 2>&1; then
+  COMPOSE_CMD="docker compose"
+elif command -v docker-compose >/dev/null 2>&1; then
+  COMPOSE_CMD="docker-compose"
+elif sudo docker compose version >/dev/null 2>&1; then
+  COMPOSE_CMD="sudo docker compose"
+elif command -v sudo >/dev/null 2>&1 && sudo docker-compose --version >/dev/null 2>&1; then
+  COMPOSE_CMD="sudo docker-compose"
 else
-  printf "Docker is not installed. Please install Docker first.\n"
+  printf "Docker / Docker Compose is not installed or running.\n"
+  printf "Run: sudo apt update && sudo apt install -y docker.io docker-compose-plugin && sudo systemctl start docker\n"
   exit 1
 fi
 
-$DOCKER_CMD compose up --build -d
+$COMPOSE_CMD up --build -d
 
 printf "\n======================================================\n"
 printf "  🚀 ShopNest CTF is running successfully!\n"
