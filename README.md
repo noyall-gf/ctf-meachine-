@@ -220,19 +220,19 @@ Copy and run ONE Docker command on your computer. Node.js, npm, native SQLite to
 **Linux / macOS:**
 
 ```bash
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git && cd final-ctf-meachine- && docker compose up --build -d
+git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && docker compose up --build -d
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git; cd final-ctf-meachine-; docker compose up --build -d
+git clone https://github.com/noyall-gf/ctf-meachine-.git; cd ctf-meachine-; docker compose up --build -d
 ```
 
 **Windows (Command Prompt):**
 
 ```cmd
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git && cd final-ctf-meachine- && docker compose up --build -d
+git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && docker compose up --build -d
 ```
 
 Open browser: `http://localhost:3000`
@@ -244,24 +244,24 @@ Clone and run the setup script on your computer. Node.js 22 will be downloaded a
 **Linux / macOS:**
 
 ```sh
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git
-cd final-ctf-meachine-
+git clone https://github.com/noyall-gf/ctf-meachine-.git
+cd ctf-meachine-
 docker compose up --build -d
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git
-cd final-ctf-meachine-
+git clone https://github.com/noyall-gf/ctf-meachine-.git
+cd ctf-meachine-
 docker compose up --build -d
 ```
 
 **Windows (Command Prompt):**
 
 ```cmd
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git
-cd final-ctf-meachine-
+git clone https://github.com/noyall-gf/ctf-meachine-.git
+cd ctf-meachine-
 docker compose up --build -d
 ```
 
@@ -272,8 +272,8 @@ Docker is the recommended reproducible setup. The older `setup.sh`, `setup.ps1`,
 If you prefer to install dependencies yourself, install Node.js 22 LTS — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating). SQLite is included through the `better-sqlite3` dependency; a separate SQLite installation is not required.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
+git clone https://github.com/noyall-gf/ctf-meachine-.git
+cd ctf-meachine-
 npm ci --legacy-peer-deps
 npm run dev
 ```
@@ -285,19 +285,19 @@ This is the recommended setup for running the CTF independently on many computer
 **Windows PowerShell:**
 
 ```powershell
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git; cd final-ctf-meachine-; docker compose up --build -d
+git clone https://github.com/noyall-gf/ctf-meachine-.git; cd ctf-meachine-; docker compose up --build -d
 ```
 
 **Windows Command Prompt:**
 
 ```cmd
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git && cd final-ctf-meachine- && docker compose up --build -d
+git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && docker compose up --build -d
 ```
 
 **Linux/macOS:**
 
 ```sh
-git clone https://github.com/noyall-gf/final-ctf-meachine-.git && cd final-ctf-meachine- && docker compose up --build -d
+git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && docker compose up --build -d
 ```
 
 Docker automatically provides the pinned Node.js 22 runtime, installs the locked dependency versions, and builds the native SQLite dependency inside the container. No Node.js, npm, Python, or compiler installation is needed on the host computer.
