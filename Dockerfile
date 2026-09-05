@@ -1,4 +1,4 @@
-FROM node:22.13.0-bookworm-slim
+FROM node:20.18.3-bookworm-slim
 
 ENV NODE_ENV=development \
 	PORT=3000 \
