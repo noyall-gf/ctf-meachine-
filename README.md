@@ -235,7 +235,7 @@ git clone https://github.com/noyall-gf/ctf-meachine-.git; cd ctf-meachine-; dock
 git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && docker compose up --build -d
 ```
 
-Open browser: `http://localhost:3000`
+Open browser: `http://localhost:9000`
 
 ### Quick Start
 
@@ -302,7 +302,7 @@ git clone https://github.com/noyall-gf/ctf-meachine-.git && cd ctf-meachine- && 
 
 Docker automatically provides the pinned Node.js 22 runtime, installs the locked dependency versions, and builds the native SQLite dependency inside the container. No Node.js, npm, Python, or compiler installation is needed on the host computer.
 
-Open `http://localhost:3000`. To access it from another device on the same network, use `http://<computer-ip>:3000`.
+Open `http://localhost:9000`. To access it from another device on the same network, use `http://<computer-ip>:9000`.
 
 On first startup, the committed seed database is copied into the persistent `shopnest-data` Docker volume. This preserves the existing users, admin, cart data, and flags. Later changes remain independent on each computer and survive container restarts.
 
