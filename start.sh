@@ -4,17 +4,20 @@ set -e
 PORT="${HOST_PORT:-9000}"
 export HOST_PORT="$PORT"
 
-if docker compose version >/dev/null 2>&1; then
+# Check if non-root user can connect to docker socket, otherwise use sudo
+if docker ps >/dev/null 2>&1; then
   COMPOSE_CMD="docker compose"
-elif command -v docker-compose >/dev/null 2>&1; then
+elif command -v docker-compose >/dev/null 2>&1 && docker-compose ps >/dev/null 2>&1; then
   COMPOSE_CMD="docker-compose"
-elif sudo docker compose version >/dev/null 2>&1; then
-  COMPOSE_CMD="sudo docker compose"
-elif command -v sudo >/dev/null 2>&1 && sudo docker-compose --version >/dev/null 2>&1; then
-  COMPOSE_CMD="sudo docker-compose"
+elif command -v sudo >/dev/null 2>&1 && sudo docker ps >/dev/null 2>&1; then
+  if sudo docker compose version >/dev/null 2>&1; then
+    COMPOSE_CMD="sudo docker compose"
+  else
+    COMPOSE_CMD="sudo docker-compose"
+  fi
 else
-  printf "Docker / Docker Compose is not installed or running.\n"
-  printf "Run: sudo apt update && sudo apt install -y docker.io docker-compose-plugin && sudo systemctl start docker\n"
+  printf "Docker daemon is not running or accessible.\n"
+  printf "Try running: sudo systemctl start docker\n"
   exit 1
 fi
 
