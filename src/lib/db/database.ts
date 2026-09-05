@@ -129,7 +129,7 @@ db.prepare(`
   "flag5{dGhpcyBpcyB0aGUgZmluYWwgZmxhZyA=}",
 );
 
-const adminPasswordHash = await bcrypt.hash(
+const adminPasswordHash = bcrypt.hashSync(
   "aG93IGFyZSB5b3UgMTIzIGlhbSBmaW5lIA==",
   12,
 );

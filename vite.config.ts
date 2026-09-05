@@ -12,6 +12,12 @@ export default defineConfig({
     port: 3000,
     strictPort: false,
   },
+  ssr: {
+    external: ["better-sqlite3"],
+  },
+  optimizeDeps: {
+    exclude: ["better-sqlite3"],
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
